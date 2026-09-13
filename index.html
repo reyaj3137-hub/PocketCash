@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketCash - Earn Money Online</title>
+  <!-- Favicon Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2300e676'/><text x='50%' y='65%' font-size='50' font-weight='bold' text-anchor='middle' fill='%230b1416'>৳</text></svg>">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-color: #0b1416;
+      --card-bg: #132226;
+      --accent-color: #00e676;
+      --text-color: #ffffff;
+      --text-sub: #9e9e9e;
+      --danger: #ff5252;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 70px; user-select: none; }
+    
+    /* Sticky Top Header */
+    .header { background: var(--card-bg); padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1c3238; position: sticky; top: 0; z-index: 100; }
+    .logo-container { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 35px; height: 35px; background: var(--accent-color); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; }
+    .brand-name { font-size: 18px; font-weight: bold; color: var(--accent-color); }
+    .user-balance { background: #1a2f35; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--accent-color); font-size: 14px; font-weight: bold; }
+    
+    /* AdBlocker Popup Notice */
+    #adblock-alert { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+    .alert-box { background: var(--card-bg); border: 2px solid var(--danger); border-radius: 12px; padding: 25px; text-align: center; max-width: 400px; }
+    .alert-box i { font-size: 45px; color: var(--danger); margin-bottom: 15px; }
+    .alert-box h3 { margin-bottom: 10px; color: var(--danger); }
+    .alert-box p { font-size: 14px; color: var(--text-sub); line-height: 1.5; margin-bottom: 15px; }
+
+    /* Navigation Tabs */
+    .main-container { padding: 15px; max-width: 600px; margin: 0 auto; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Cards & Buttons */
+    .card { background: var(--card-bg); border-radius: 12px; padding: 18px; margin-bottom: 15px; border: 1px solid #1c3238; }
+    .btn { background: var(--accent-color); color: #000; font-weight: bold; border: none; padding: 12px 20px; border-radius: 8px; width: 100%; cursor: pointer; font-size: 16px; margin-top: 10px; }
+    .btn:disabled { background: #555; cursor: not-allowed; }
+
+    /* Ad Container Placeholders */
+    .ad-slot { background: #070d0e; border: 1px dashed #24434b; min-height: 90px; margin: 15px 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-sub); text-align: center; }
+    .floating-push-ad { position: fixed; bottom: 65px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; z-index: 90; }
+
+    /* Bottom Navigation Bar */
+    .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #1c3238; z-index: 100; }
+    .nav-item { color: var(--text-sub); text-decoration: none; display: flex; flex-direction: column; align-items: center; font-size: 12px; gap: 4px; cursor: pointer; }
+    .nav-item.active { color: var(--accent-color); }
+    .nav-item i { font-size: 18px; }
+  </style>
+</head>
+<body>
+
+  <!-- AdBlocker Detection Popup -->
+  <div id="adblock-alert">
+    <div class="alert-box">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <h3>AdBlocker Detected!</h3>
+      <p>আপনার ফোনে AdBlocker বা Private DNS চালু আছে। এটি বন্ধ না করলে বিজ্ঞাপন দেখতে ও পয়েন্ট ইনকাম করতে পারবেন না।</p>
+      <p style="font-weight: bold; color: var(--accent-color);">সেটিংস > Network > Private DNS > Off করুন।</p>
+    </div>
+  </div>
+
+  <!-- Top Header Bar -->
+  <div class="header">
+    <div class="logo-container">
+      <div class="logo-icon">৳</div>
+      <div class="brand-name">PocketCash</div>
+    </div>
+    <div class="user-balance">
+      <i class="fa-solid fa-coins" style="color:#ffd700;"></i> <span id="user-points">0</span> ৳
+    </div>
+  </div>
+
+  <!-- Main App Layout Area -->
+  <div class="main-container">
+
+    <!-- TAB 1: ADS SECTION -->
+    <div id="sec-ads" class="tab-content active">
+      <div class="card">
+        <h3><i class="fa-solid fa-circle-play" style="color:var(--accent-color);"></i> VIP Video Ads</h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 5px;">৩০ সেকেন্ড ভিডিও দেখে নিশ্চিত পয়েন্ট অর্জন করুন।</p>
+        <div id="video-timer" style="margin: 10px 0; font-weight: bold; color: var(--accent-color);"></div>
+        <button id="btn-watch-ad" class="btn" onclick="startVideoAd()">Watch Video Ad</button>
+      </div>
+
+      <!-- Personal Passive Banner Ad Slot -->
+      <div class="ad-slot" id="banner-ad-ads-tab">
+        <!-- Banner Ad Code (Adsterra/Monetag) Will Be Placed Here -->
+        <span>[ Personal Banner Ad Slot ]</span>
+      </div>
+    </div>
+
+    <!-- TAB 2: GAMES SECTION -->
+    <div id="sec-games" class="tab-content">
+      <div class="card" style="text-align: center;">
+        <h3><i class="fa-solid fa-gamepad" style="color:var(--accent-color);"></i> HTML5 Mini Games Hub</h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-top: 5px;">গেম খেলুন, প্রতিটি লেভেল বা স্পিনে পয়েন্ট জিতুন!</p>
+      </div>
+
+      <!-- Game 1: Lucky Wheel -->
+      <div class="card">
+        <h4>🎡 Lucky Spin Wheel</h4>
+        <p style="font-size: 12px; color: var(--text-sub);">চাকা ঘুরিয়ে ভাগ্যবান পয়েন্ট জিতুন।</p>
+        <button class="btn" onclick="playGame('Spin Wheel')">Play Spin Wheel</button>
+      </div>
+
+      <!-- Game 2: Captcha Solver -->
+      <div class="card">
+        <h4>🔢 Fast Captcha Solve</h4>
+        <p style="font-size: 12px; color: var(--text-sub);">সহজ কোড টাইপ করে সাবমিট করুন।</p>
+        <button class="btn" onclick="playGame('Captcha')">Solve Captcha</button>
+      </div>
+    </div>
+
+    <!-- TAB 3: PROFILES & SETTINGS -->
+    <div id="sec-profile" class="tab-content">
+      <div class="card" style="text-align: center;">
+        <i class="fa-solid fa-user-circle" style="font-size: 50px; color: var(--accent-color); margin-bottom: 10px;"></i>
+        <h3 id="user-name">ইউজার নেম</h3>
+        <p id="user-email" style="font-size: 12px; color: var(--text-sub); margin-bottom: 15px;">user@gmail.com</p>
+
+        <!-- Telegram Official Channels -->
+        <a href="https://t.me/PocketCash_Official_bot" target="_blank" style="text-decoration: none;">
+          <button class="btn" style="background: #2aabee; color: #fff; margin-bottom: 10px;">
+            <i class="fa-paper-plane"></i> Official Telegram Bot
+          </button>
+        </a>
+
+        <a href="https://t.me/PocketCashbd12" target="_blank" style="text-decoration: none;">
+          <button class="btn" style="background: #0088cc; color: #fff;">
+            <i class="fa-solid fa-bullhorn"></i> Payment Proof Channel
+          </button>
+        </a>
+      </div>
+
+      <!-- Withdraw Request Section -->
+      <div class="card">
+        <h3><i class="fa-solid fa-wallet"></i> Cash Withdraw</h3>
+        <p style="font-size: 12px; color: var(--text-sub); margin-top: 5px;">মাসের ৩ ও ৪ তারিখ পেমেন্ট রিকোয়েস্ট দিতে পারবেন।</p>
+        <button id="btn-withdraw" class="btn" onclick="processWithdrawal()" style="margin-top: 15px;">Request Payment</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Floating Social Bar Ad Slot -->
+  <div class="floating-push-ad">
+    <div class="ad-slot" style="min-height: 50px; margin: 0; background: #132226; border-color: var(--accent-color);">
+      <!-- Floating Push / Social Bar Ad Code -->
+      <span>[ Floating Message Ad Slot ]</span>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Menu -->
+  <div class="navbar">
+    <div class="nav-item active" onclick="switchTab('sec-ads', this)">
+      <i class="fa-solid fa-rectangle-ad"></i>
+      <span>Ads</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('sec-games', this)">
+      <i class="fa-solid fa-gamepad"></i>
+      <span>Games</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('sec-profile', this)">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </div>
+  </div>
+
+  <script>
+    // Tab Switcher Logic
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      element.classList.add('active');
+    }
+
+    // Video Ad & Cooldown Logic
+    function startVideoAd() {
+      const btn = document.getElementById('btn-watch-ad');
+      const timerDisplay = document.getElementById('video-timer');
+      btn.disabled = true;
+      let secondsLeft = 30;
+      
+      const timer = setInterval(() => {
+        timerDisplay.innerText = `বিজ্ঞাপন চলছে: ${secondsLeft} সেকেন্ড...`;
+        secondsLeft--;
+        if (secondsLeft < 0) {
+          clearInterval(timer);
+          timerDisplay.innerText = "অভিনন্দন! ১০ পয়েন্ট যোগ হয়েছে।";
+          btn.disabled = false;
+        }
+      }, 1000);
+    }
+
+    function playGame(gameName) {
+      alert(gameName + " শুরু হচ্ছে! গেম শেষে পয়েন্ট যোগ হবে।");
+    }
+
+    function processWithdrawal() {
+      alert("উইথড্র ফর্মে তথ্য পূরণ করে সাবমিট করুন।");
+    }
+  </script>
+</body>
+</html>
