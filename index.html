@@ -7,9 +7,8 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2300e676'/><text x='50%' y='65%' font-size='50' font-weight='bold' text-anchor='middle' fill='%230b1416'>৳</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- Telegram WebApp SDK for Auto User Detection -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
     :root {
@@ -22,7 +21,7 @@
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 120px; user-select: none; }
+    body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 75px; user-select: none; }
     
     /* Top Header Bar */
     .header { background: var(--card-bg); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1c3238; position: sticky; top: 0; z-index: 100; }
@@ -40,11 +39,11 @@
     .alert-box h3 { margin-bottom: 10px; color: var(--danger); }
     .alert-box p { font-size: 14px; color: var(--text-sub); line-height: 1.5; margin-bottom: 15px; }
 
-    /* Full Screen Game Window */
+    /* Game Window Screen */
     .game-window { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; flex-direction: column; overflow-y: auto; }
     .game-header { background: var(--card-bg); padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1c3238; }
 
-    /* Layout & Cards */
+    /* Cards & Layout */
     .main-container { padding: 15px; max-width: 600px; margin: 0 auto; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -61,29 +60,25 @@
     .social-links { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
     .social-badge { background: #1a2f35; color: #fff; padding: 8px 14px; border-radius: 20px; text-decoration: none; font-size: 12px; display: flex; align-items: center; gap: 6px; border: 1px solid #24434b; }
 
-    /* Game Cards Grid */
+    /* Games Grid */
     .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .game-card { background: var(--card-bg); border: 1px solid #1c3238; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.2s; }
     .game-card:hover { border-color: var(--accent-color); }
     .game-icon-box { width: 60px; height: 60px; border-radius: 50%; background: #070d0e; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-size: 28px; border: 2px solid var(--accent-color); }
-    .game-card h4 { font-size: 14px; margin-bottom: 4px; }
-    .game-card p { font-size: 11px; color: var(--text-sub); }
 
     .wheel-box { width: 160px; height: 160px; border-radius: 50%; border: 5px solid var(--accent-color); margin: 20px auto; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; background: radial-gradient(circle, #1c3238 0%, #070d0e 100%); transition: transform 3s cubic-bezier(0.15, 0.9, 0.15, 1); }
     .captcha-display { font-size: 22px; letter-spacing: 5px; font-weight: bold; background: #070d0e; padding: 8px 15px; border-radius: 6px; color: var(--accent-color); text-decoration: line-through; margin-bottom: 10px; display: inline-block; }
 
-    /* Download Tasks & Ads */
     .task-item { display: flex; justify-content: space-between; align-items: center; background: #070d0e; padding: 12px; border-radius: 8px; border: 1px solid #1c3238; margin-bottom: 10px; }
     .task-info h5 { font-size: 14px; color: #fff; }
     .task-info p { font-size: 11px; color: var(--text-sub); }
 
     .ad-slot { background: #070d0e; border: 1px dashed #24434b; min-height: 70px; margin: 10px 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-sub); border-radius: 8px; }
     
-    /* Floating Ad Positioned Above Navbar */
     .floating-push-ad { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; z-index: 900; }
 
     /* Fixed Bottom Navbar */
-    .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: #132226; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #1c3238; z-index: 1000; box-shadow: 0 -3px 10px rgba(0,0,0,0.5); }
+    .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: #132226; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #1c3238; z-index: 1000; }
     .nav-item { color: var(--text-sub); text-decoration: none; display: flex; flex-direction: column; align-items: center; font-size: 11px; gap: 4px; cursor: pointer; flex: 1; text-align: center; }
     .nav-item.active { color: var(--accent-color); font-weight: bold; }
     .nav-item i { font-size: 18px; }
@@ -91,9 +86,11 @@
 </head>
 <body>
 
+  <!-- Security Alerts -->
   <div id="adblock-alert" class="modal-overlay"><div class="alert-box"><i class="fa-solid fa-triangle-exclamation"></i><h3>AdBlocker Detected!</h3><p>Private DNS বন্ধ করে পেজটি রিফ্রেশ দিন।</p></div></div>
   <div id="vpn-alert" class="modal-overlay"><div class="alert-box"><i class="fa-solid fa-user-shield"></i><h3>VPN Detected!</h3><p>VPN বন্ধ করে পুনরায় চেষ্টা করুন।</p></div></div>
 
+  <!-- Cash Withdrawal Modal -->
   <div id="withdraw-modal" class="modal-overlay">
     <div class="alert-box" style="border-color: var(--accent-color);">
       <h3 style="color: var(--accent-color);"><i class="fa-solid fa-wallet"></i> Cash Withdrawal</h3>
@@ -106,7 +103,7 @@
           </select>
         </div>
         <div class="input-group">
-          <label>একাউন্ট নম্বর</label>
+          <label>পেমেন্ট গ্রহণকারী নম্বর</label>
           <input type="number" id="withdraw-number" placeholder="017XXXXXXXX" required>
         </div>
         <div class="input-group">
@@ -119,15 +116,16 @@
     </div>
   </div>
 
+  <!-- FULL SCREEN GAME WINDOW -->
   <div id="game-view" class="game-window">
     <div class="game-header">
       <h4 id="game-title" style="color: var(--accent-color);">Game Title</h4>
       <button class="btn" style="width: auto; margin:0; padding: 6px 14px; background: var(--danger); color:#fff;" onclick="closeGameView()"><i class="fa-solid fa-xmark"></i> Back</button>
     </div>
-    <div class="main-container" id="game-container-content" style="margin-top: 20px;">
-    </div>
+    <div class="main-container" id="game-container-content" style="margin-top: 20px;"></div>
   </div>
 
+  <!-- Top Header Bar -->
   <div class="header">
     <div class="logo-container">
       <div class="logo-icon">৳</div>
@@ -139,8 +137,10 @@
     </div>
   </div>
 
+  <!-- Main Layout Tabs -->
   <div class="main-container">
 
+    <!-- TAB 1: ADS SECTION -->
     <div id="sec-ads" class="tab-content active">
       <div class="card">
         <h3><i class="fa-solid fa-circle-play" style="color:var(--accent-color);"></i> VIP Video Ads</h3>
@@ -164,6 +164,7 @@
       <div class="ad-slot" id="banner-ad-ads-tab"><span>[ Personal Banner Ad Slot ]</span></div>
     </div>
 
+    <!-- TAB 2: DOWNLOAD TASKS -->
     <div id="sec-downloads" class="tab-content">
       <div class="card">
         <h3><i class="fa-solid fa-download" style="color:var(--accent-color);"></i> Download & Earn Tasks</h3>
@@ -187,6 +188,7 @@
       </div>
     </div>
 
+    <!-- TAB 3: ONLINE GAMES GRID -->
     <div id="sec-games" class="tab-content">
       <div class="card" style="text-align: center;">
         <h3><i class="fa-solid fa-gamepad" style="color:var(--accent-color);"></i> HTML5 Games Hub</h3>
@@ -210,17 +212,28 @@
       </div>
     </div>
 
+    <!-- TAB 4: PROFILE & TELEGRAM USER ACCOUNT -->
     <div id="sec-profile" class="tab-content">
-      <div id="login-banner" class="card" style="border-color: var(--accent-color); text-align: center;">
-        <h4><i class="fa-solid fa-lock"></i> একাউন্টে লগইন করুন</h4>
-        <p style="font-size: 12px; color: var(--text-sub); margin: 5px 0 10px 0;">কয়েন ও টাকা সেভ রাখতে গুগলে লগইন বাধ্যতামূলক।</p>
-        <button class="btn" onclick="loginWithGoogle()"><i class="fa-brands fa-google"></i> Google Sign In</button>
+      <!-- Quick User Registration Box (If Not Telegram Auto-Connected) -->
+      <div id="account-setup-box" class="card" style="border-color: var(--accent-color); text-align: center; display: none;">
+        <h4><i class="fa-solid fa-user-plus" style="color: var(--accent-color);"></i> একাউন্ট সক্রিয় করুন</h4>
+        <p style="font-size: 12px; color: var(--text-sub); margin: 5px 0 12px 0;">কয়েন ও উইথড্র তথ্য সেভ রাখতে আপনার নাম ও নম্বর দিন।</p>
+        <form onsubmit="saveCustomProfile(event)">
+          <div class="input-group">
+            <input type="text" id="init-name" placeholder="আপনার নাম লিখুন" required>
+          </div>
+          <div class="input-group">
+            <input type="number" id="init-phone" placeholder="মোবাইল নম্বর (যেমন: 017...)" required>
+          </div>
+          <button type="submit" class="btn">সেভ করুন ও সক্রিয় করুন</button>
+        </form>
       </div>
 
+      <!-- Active User Profile Box -->
       <div class="card" style="text-align: center;">
-        <i class="fa-solid fa-user-circle" style="font-size: 50px; color: var(--accent-color); margin-bottom: 8px;"></i>
-        <h4 id="user-name">অতিথি ইউজার</h4>
-        <p id="user-email" style="font-size: 12px; color: var(--text-sub);">লগইন করা হয়নি</p>
+        <i class="fa-solid fa-user-circle" style="font-size: 55px; color: var(--accent-color); margin-bottom: 8px;"></i>
+        <h4 id="user-name">টেলিগ্রাম ইউজার</h4>
+        <p id="user-phone" style="font-size: 12px; color: var(--text-sub);">আইডি: সক্রিয়</p>
 
         <div class="social-links">
           <a href="https://t.me/PocketCash_Official_bot" target="_blank" class="social-badge" style="border-color:#2aabee;">
@@ -241,12 +254,14 @@
 
   </div>
 
+  <!-- Bottom Floating Ad Banner -->
   <div class="floating-push-ad">
     <div class="ad-slot" style="min-height: 40px; margin: 0; background: #132226; border-color: var(--accent-color);">
       <span>[ Floating Message Ad Slot ]</span>
     </div>
   </div>
 
+  <!-- FIXED 4-TABS BOTTOM NAVBAR -->
   <div class="navbar">
     <div class="nav-item active" onclick="switchTab('sec-ads', this)">
       <i class="fa-solid fa-rectangle-ad"></i>
@@ -267,25 +282,59 @@
   </div>
 
   <script>
-    // 1. Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDYhFortyAO8CZaDr_EazA-N8ndbo7WxSI",
-      authDomain: "pocketcash-8831e.firebaseapp.com",
-      projectId: "pocketcash-8831e",
-      storageBucket: "pocketcash-8831e.firebasestorage.app",
-      messagingSenderId: "827118308120",
-      appId: "1:827118308120:web:301c46e2caabb980426c6d",
-      measurementId: "G-3W8GBMPJRE"
-    };
+    // 1. LOCAL DATA ENGINE (No Firebase, No external dependencies)
+    let userCoins = parseInt(localStorage.getItem('pocketcash_coins') || '0');
+    let userData = JSON.parse(localStorage.getItem('pocketcash_user') || 'null');
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    // Auto-detect Telegram WebApp User Data if opened from Telegram Bot
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+      const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+      userData = {
+        name: tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : ''),
+        phone: tgUser.username ? '@' + tgUser.username : 'TG-ID: ' + tgUser.id,
+        id: tgUser.id
+      };
+      localStorage.setItem('pocketcash_user', JSON.stringify(userData));
+    }
 
-    let currentUser = null;
-    let userCoins = 0;
+    function initUserProfile() {
+      updateBalanceUI();
+      if (userData) {
+        document.getElementById('account-setup-box').style.display = 'none';
+        document.getElementById('user-name').innerText = userData.name;
+        document.getElementById('user-phone').innerText = userData.phone;
+      } else {
+        document.getElementById('account-setup-box').style.display = 'block';
+        document.getElementById('user-name').innerText = "গেস্ট ইউজার";
+        document.getElementById('user-phone').innerText = "অ্যাকাউন্ট সক্রিয় করুন";
+      }
+    }
+    initUserProfile();
 
-    // 2. Anti-VPN & Security
+    function saveCustomProfile(e) {
+      e.preventDefault();
+      const name = document.getElementById('init-name').value.trim();
+      const phone = document.getElementById('init-phone').value.trim();
+      if (name && phone) {
+        userData = { name: name, phone: phone };
+        localStorage.setItem('pocketcash_user', JSON.stringify(userData));
+        initUserProfile();
+        alert("✅ অ্যাকাউন্ট সফলভাবে সক্রিয় করা হয়েছে!");
+      }
+    }
+
+    function addCoins(amount) {
+      userCoins += amount;
+      localStorage.setItem('pocketcash_coins', userCoins);
+      updateBalanceUI();
+    }
+
+    function updateBalanceUI() {
+      document.getElementById('user-coins').innerText = userCoins;
+      document.getElementById('user-taka').innerText = (userCoins / 100).toFixed(1);
+    }
+
+    // 2. Security Checks
     async function runSecurityChecks() {
       try {
         const res = await fetch('https://ip-api.com/json/?fields=status,proxy,hosting');
@@ -306,48 +355,7 @@
     }
     runSecurityChecks();
 
-    // 3. Auth Engine
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        currentUser = user;
-        document.getElementById('login-banner').style.display = 'none';
-        document.getElementById('user-name').innerText = user.displayName || 'Pocket User';
-        document.getElementById('user-email').innerText = user.email;
-
-        const userRef = db.collection('users').doc(user.uid);
-        userRef.get().then(doc => {
-          if (doc.exists) {
-            userCoins = doc.data().coins || 0;
-            updateBalanceUI();
-          } else {
-            userRef.set({ name: user.displayName, email: user.email, coins: 0 });
-          }
-        });
-      }
-    });
-
-    function loginWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider).catch(err => alert("লগইন ত্রুটি: " + err.message));
-    }
-
-    function addCoins(amount) {
-      if (!currentUser) {
-        alert("কয়েন যোগ করতে প্রোফাইল ট্যাব থেকে গুগলে লগইন করুন!");
-        switchTab('sec-profile', document.querySelectorAll('.nav-item')[3]);
-        return;
-      }
-      userCoins += amount;
-      updateBalanceUI();
-      db.collection('users').doc(currentUser.uid).update({ coins: userCoins });
-    }
-
-    function updateBalanceUI() {
-      document.getElementById('user-coins').innerText = userCoins;
-      document.getElementById('user-taka').innerText = (userCoins / 100).toFixed(1);
-    }
-
-    // 4. Ads Actions
+    // 3. Ads Tasks
     function triggerDynamicAd() {
       const status = document.getElementById('video-status');
       const btn = document.getElementById('btn-watch-ad');
@@ -376,7 +384,7 @@
       addCoins(rewardCoins);
     }
 
-    // 5. Separate Game Window Engine
+    // 4. Interactive Games Engine
     let currentRotation = 0;
     function openGame(gameType) {
       const view = document.getElementById('game-view');
@@ -406,7 +414,6 @@
         `;
         generateCaptcha();
       }
-
       view.style.display = 'flex';
     }
 
@@ -448,10 +455,10 @@
       }
     }
 
-    // 6. Withdraw Request System
+    // 5. Withdrawal Engine (Sends Direct Telegram Bot Notification)
     function openWithdrawModal() {
-      if (!currentUser) {
-        alert("উইথড্র রিকোয়েস্ট দিতে প্রথমে প্রোফাইল ট্যাব থেকে লগইন করুন।");
+      if (!userData) {
+        alert("উইথড্র রিকোয়েস্ট দিতে প্রথমে প্রোফাইল ট্যাব থেকে আপনার নাম ও নম্বর দিন।");
         switchTab('sec-profile', document.querySelectorAll('.nav-item')[3]);
         return;
       }
@@ -475,7 +482,7 @@
 
       const botToken = "8928084504:AAFAQVSzs3_HPvuEss3Rbei2RN5VrPZLpWY";
       const adminId = "7998776113";
-      const text = `🚨 *NEW WITHDRAWAL REQUEST*\n\n👤 *User:* ${currentUser.displayName}\n📧 *Email:* ${currentUser.email}\n💳 *Method:* ${method}\n📞 *Number:* \`${number}\` \n🪙 *Coins:* ${coins}\n💵 *Amount:* ${coins / 100} BDT`;
+      const text = `🚨 *NEW WITHDRAWAL REQUEST*\n\n👤 *User Name:* ${userData.name}\n📞 *User Info:* ${userData.phone}\n💳 *Payment Method:* ${method}\n📱 *Receiver Number:* \`${number}\` \n🪙 *Coins:* ${coins}\n💵 *Amount:* ${coins / 100} BDT`;
 
       fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
@@ -486,8 +493,8 @@
       .then(data => {
         if (data.ok) {
           userCoins -= coins;
+          localStorage.setItem('pocketcash_coins', userCoins);
           updateBalanceUI();
-          db.collection('users').doc(currentUser.uid).update({ coins: userCoins });
           alert("✅ আপনার পেমেন্ট রিকোয়েস্ট সফলভাবে এডমিনের কাছে পাঠানো হয়েছে!");
           closeWithdrawModal();
         }
@@ -502,4 +509,4 @@
     }
   </script>
 </body>
-  </html>
+          </html>
