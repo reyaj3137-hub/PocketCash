@@ -34,12 +34,16 @@
     .balance-box { display: flex; gap: 8px; }
     .bal-badge { background: #1a2f35; padding: 5px 10px; border-radius: 15px; border: 1px solid #24434b; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
 
-    /* Modals */
+    /* Modals & Full Screen Views */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
     .alert-box { background: var(--card-bg); border: 2px solid var(--danger); border-radius: 12px; padding: 25px; text-align: center; max-width: 400px; width: 100%; }
     .alert-box i { font-size: 45px; color: var(--danger); margin-bottom: 15px; }
     .alert-box h3 { margin-bottom: 10px; color: var(--danger); }
     .alert-box p { font-size: 14px; color: var(--text-sub); line-height: 1.5; margin-bottom: 15px; }
+
+    /* Game Screen Window Overlay */
+    .game-window { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 999; flex-direction: column; overflow-y: auto; }
+    .game-header { background: var(--card-bg); padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1c3238; }
 
     /* Layout & Cards */
     .main-container { padding: 15px; max-width: 600px; margin: 0 auto; }
@@ -55,25 +59,31 @@
     .input-group label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 5px; }
     .input-group input, .input-group select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #24434b; background: #070d0e; color: #fff; font-size: 14px; outline: none; }
 
-    /* Compact Social Buttons */
+    /* Social Badges */
     .social-links { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
     .social-badge { background: #1a2f35; color: #fff; padding: 8px 14px; border-radius: 20px; text-decoration: none; font-size: 12px; display: flex; align-items: center; gap: 6px; border: 1px solid #24434b; }
-    .social-badge i { font-size: 14px; }
 
-    /* Games Styling */
-    .wheel-box { width: 160px; height: 160px; border-radius: 50%; border: 5px solid var(--accent-color); margin: 15px auto; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; background: radial-gradient(circle, #1c3238 0%, #070d0e 100%); transition: transform 3s cubic-bezier(0.15, 0.9, 0.15, 1); }
+    /* Games Grid Layout */
+    .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .game-card { background: var(--card-bg); border: 1px solid #1c3238; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.2s; }
+    .game-card:hover { border-color: var(--accent-color); }
+    .game-icon-box { width: 60px; height: 60px; border-radius: 50%; background: #070d0e; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-size: 28px; border: 2px solid var(--accent-color); }
+    .game-card h4 { font-size: 14px; margin-bottom: 4px; }
+    .game-card p { font-size: 11px; color: var(--text-sub); }
+
+    /* Inside Game Elements */
+    .wheel-box { width: 160px; height: 160px; border-radius: 50%; border: 5px solid var(--accent-color); margin: 20px auto; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; background: radial-gradient(circle, #1c3238 0%, #070d0e 100%); transition: transform 3s cubic-bezier(0.15, 0.9, 0.15, 1); }
     .captcha-display { font-size: 22px; letter-spacing: 5px; font-weight: bold; background: #070d0e; padding: 8px 15px; border-radius: 6px; color: var(--accent-color); text-decoration: line-through; margin-bottom: 10px; display: inline-block; }
 
-    /* Download Task Cards */
+    /* Download Tasks & Ads */
     .task-item { display: flex; justify-content: space-between; align-items: center; background: #070d0e; padding: 12px; border-radius: 8px; border: 1px solid #1c3238; margin-bottom: 10px; }
     .task-info h5 { font-size: 14px; color: #fff; }
     .task-info p { font-size: 11px; color: var(--text-sub); }
 
-    /* Ads Slots */
     .ad-slot { background: #070d0e; border: 1px dashed #24434b; min-height: 80px; margin: 15px 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-sub); border-radius: 8px; }
     .floating-push-ad { position: fixed; bottom: 65px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; z-index: 90; }
 
-    /* Navbar 4-Tabs */
+    /* Navbar 4 Tabs */
     .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #1c3238; z-index: 100; }
     .nav-item { color: var(--text-sub); text-decoration: none; display: flex; flex-direction: column; align-items: center; font-size: 11px; gap: 4px; cursor: pointer; flex: 1; }
     .nav-item.active { color: var(--accent-color); }
@@ -83,10 +93,10 @@
 <body>
 
   <!-- Security Alerts -->
-  <div id="adblock-alert" class="modal-overlay"><div class="alert-box"><i class="fa-solid fa-triangle-exclamation"></i><h3>AdBlocker / Private DNS Detected!</h3><p>Private DNS অফ করে পেজটি রিফ্রেশ দিন।</p></div></div>
-  <div id="vpn-alert" class="modal-overlay"><div class="alert-box"><i class="fa-solid fa-user-shield"></i><h3>VPN / Proxy Detected!</h3><p>VPN বন্ধ করে কাজ শুরু করুন।</p></div></div>
+  <div id="adblock-alert" class="modal-overlay"><div class="alert-box"><i class="fa-solid fa-triangle-exclamation"></i><h3>AdBlocker Detected!</h3><p>Private DNS বন্ধ করে পেজটি রিফ্রেশ দিন।</p></div></div>
+  <div id="vpn-alert" class="modal-overlay"><div class="alert-box"><i class="fa-solid fa-user-shield"></i><h3>VPN Detected!</h3><p>VPN বন্ধ করে পুনরায় চেষ্টা করুন।</p></div></div>
 
-  <!-- Cash Withdraw Modal -->
+  <!-- Cash Withdrawal Modal -->
   <div id="withdraw-modal" class="modal-overlay">
     <div class="alert-box" style="border-color: var(--accent-color);">
       <h3 style="color: var(--accent-color);"><i class="fa-solid fa-wallet"></i> Cash Withdrawal</h3>
@@ -112,6 +122,17 @@
     </div>
   </div>
 
+  <!-- FULL SCREEN GAME PLAYING WINDOW -->
+  <div id="game-view" class="game-window">
+    <div class="game-header">
+      <h4 id="game-title" style="color: var(--accent-color);">Game Title</h4>
+      <button class="btn" style="width: auto; margin:0; padding: 6px 14px; background: var(--danger); color:#fff;" onclick="closeGameView()"><i class="fa-solid fa-xmark"></i> Back</button>
+    </div>
+    <div class="main-container" id="game-container-content" style="margin-top: 20px;">
+      <!-- Dynamic Game Content Injected Here -->
+    </div>
+  </div>
+
   <!-- Top Header Bar -->
   <div class="header">
     <div class="logo-container">
@@ -127,23 +148,35 @@
   <!-- Main Container -->
   <div class="main-container">
 
-    <!-- TAB 1: ADS SECTION -->
+    <!-- TAB 1: ADS SECTION (3-4 Ad Options) -->
     <div id="sec-ads" class="tab-content active">
       <div class="card">
-        <h3><i class="fa-solid fa-circle-play" style="color:var(--accent-color);"></i> Dynamic Video Ads</h3>
-        <p style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">অ্যাড দেখা শেষ হলে স্বয়ংক্রিয়ভাবে কয়েন যোগ হয়ে যাবে।</p>
-        <div id="video-status" style="margin: 10px 0; font-weight: bold; color: var(--accent-color);"></div>
+        <h3><i class="fa-solid fa-circle-play" style="color:var(--accent-color);"></i> VIP Video Ads</h3>
+        <p style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">ভিডিও দেখে ১০ কয়েন ইনকাম করুন।</p>
+        <div id="video-status" style="margin: 8px 0; font-weight: bold; color: var(--accent-color);"></div>
         <button id="btn-watch-ad" class="btn" onclick="triggerDynamicAd()">Watch Video Ad</button>
+      </div>
+
+      <div class="card">
+        <h3><i class="fa-solid fa-link" style="color:var(--accent-color);"></i> Direct Link Ads</h3>
+        <p style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">স্পনসর লিংক ভিজিট করে ১৫ কয়েন পান।</p>
+        <button class="btn" style="background: #2196f3; color: #fff;" onclick="visitDirectLink()">Visit Link Task</button>
+      </div>
+
+      <div class="card">
+        <h3><i class="fa-solid fa-globe" style="color:var(--accent-color);"></i> Web View Ads</h3>
+        <p style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">ওয়েবসাইট ১৫ সেকেন্ড দেখে বোনাস নিন।</p>
+        <button class="btn" style="background: #9c27b0; color: #fff;" onclick="openWebViewAd()">View Web Ad</button>
       </div>
 
       <div class="ad-slot" id="banner-ad-ads-tab"><span>[ Personal Banner Ad Slot ]</span></div>
     </div>
 
-    <!-- TAB 2: APP DOWNLOAD TASKS -->
+    <!-- TAB 2: DOWNLOAD TASKS -->
     <div id="sec-downloads" class="tab-content">
       <div class="card">
         <h3><i class="fa-solid fa-download" style="color:var(--accent-color);"></i> Download & Earn Tasks</h3>
-        <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 15px;">অ্যাপ বা গেম ইনস্টল করে অতিরিক্ত ইনকাম করুন।</p>
+        <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 15px;">অ্যাপ ইনস্টল করে অতিরিক্ত কয়েন অর্জন করুন।</p>
 
         <div class="task-item">
           <div class="task-info">
@@ -163,30 +196,37 @@
       </div>
     </div>
 
-    <!-- TAB 3: ONLINE GAMES -->
+    <!-- TAB 3: ONLINE GAMES GRID (Logos & Cards Only) -->
     <div id="sec-games" class="tab-content">
       <div class="card" style="text-align: center;">
-        <h4>🎡 Lucky Spin Wheel</h4>
-        <div class="wheel-box" id="spin-wheel">🎯</div>
-        <button id="btn-spin" class="btn" onclick="playSpinGame()">Spin Now (+5 Coins)</button>
+        <h3><i class="fa-solid fa-gamepad" style="color:var(--accent-color);"></i> HTML5 Games Hub</h3>
+        <p style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">যেকোনো গেম কার্ডে ক্লিক করে গেম প্লে করুন।</p>
       </div>
 
-      <div class="card" style="text-align: center;">
-        <h4>🔢 Fast Captcha Solver</h4>
-        <div class="captcha-display" id="captcha-code">8X92B</div>
-        <div class="input-group">
-          <input type="text" id="captcha-input" placeholder="ক্যাপচা কোড টাইপ করুন">
+      <div class="game-grid">
+        <!-- Game Card 1 -->
+        <div class="game-card" onclick="openGame('spin')">
+          <div class="game-icon-box">🎡</div>
+          <h4>Lucky Spin</h4>
+          <p>স্পিন ঘুরিয়ে কয়েন জিতুন</p>
+          <button class="btn" style="padding: 6px; font-size: 12px;">Play Now</button>
         </div>
-        <button class="btn" onclick="verifyCaptcha()">Submit Captcha (+3 Coins)</button>
+
+        <!-- Game Card 2 -->
+        <div class="game-card" onclick="openGame('captcha')">
+          <div class="game-icon-box">🔢</div>
+          <h4>Captcha Solver</h4>
+          <p>সহজ ক্যাপচা সমাধান করুন</p>
+          <button class="btn" style="padding: 6px; font-size: 12px;">Play Now</button>
+        </div>
       </div>
     </div>
 
     <!-- TAB 4: PROFILE & SETTINGS -->
     <div id="sec-profile" class="tab-content">
-      <!-- Google Sign In Box (Only in Profile Tab) -->
       <div id="login-banner" class="card" style="border-color: var(--accent-color); text-align: center;">
         <h4><i class="fa-solid fa-lock"></i> একাউন্টে লগইন করুন</h4>
-        <p style="font-size: 12px; color: var(--text-sub); margin: 5px 0 10px 0;">পয়েন্ট ও টাকা ডাটাবেসে সেভ রাখতে লগইন করুন।</p>
+        <p style="font-size: 12px; color: var(--text-sub); margin: 5px 0 10px 0;">কয়েন ও টাকা সেভ রাখতে গুগলে লগইন বাধ্যতামূলক।</p>
         <button class="btn" onclick="loginWithGoogle()"><i class="fa-brands fa-google"></i> Google Sign In</button>
       </div>
 
@@ -195,7 +235,6 @@
         <h4 id="user-name">অতিথি ইউজার</h4>
         <p id="user-email" style="font-size: 12px; color: var(--text-sub);">লগইন করা হয়নি</p>
 
-        <!-- Compact Social Buttons -->
         <div class="social-links">
           <a href="https://t.me/PocketCash_Official_bot" target="_blank" class="social-badge" style="border-color:#2aabee;">
             <i class="fa-paper-plane" style="color:#2aabee;"></i> Bot
@@ -243,7 +282,7 @@
   </div>
 
   <script>
-    // 1. Firebase Configuration
+    // 1. Firebase Setup
     const firebaseConfig = {
       apiKey: "AIzaSyDYhFortyAO8CZaDr_EazA-N8ndbo7WxSI",
       authDomain: "pocketcash-8831e.firebaseapp.com",
@@ -282,7 +321,7 @@
     }
     runSecurityChecks();
 
-    // 3. Auth & Database Sync
+    // 3. Auth Engine
     auth.onAuthStateChanged(user => {
       if (user) {
         currentUser = user;
@@ -323,29 +362,73 @@
       document.getElementById('user-taka').innerText = (userCoins / 100).toFixed(1);
     }
 
-    // 4. Dynamic Video Ads Logic
+    // 4. Ads Actions
     function triggerDynamicAd() {
       const status = document.getElementById('video-status');
       const btn = document.getElementById('btn-watch-ad');
       btn.disabled = true;
       status.innerText = "বিজ্ঞাপন লোড হচ্ছে...";
 
-      // Standard Ad Networks Reward Trigger Logic
       setTimeout(() => {
         status.innerText = "অভিনন্দন! ১০ কয়েন যোগ হয়েছে।";
         addCoins(10);
         btn.disabled = false;
-      }, 1500); // Trigger reward dynamically as ad finishes
+      }, 1500);
     }
 
-    // 5. Download Tasks
+    function visitDirectLink() {
+      addCoins(15);
+      alert("স্পনসর লিংক সম্পন্ন হয়েছে! ১৫ কয়েন যুক্ত হয়েছে।");
+    }
+
+    function openWebViewAd() {
+      addCoins(10);
+      alert("ওয়েব ভিজিট সফল! ১০ কয়েন যোগ করা হয়েছে।");
+    }
+
     function doTask(taskName, rewardCoins) {
-      alert(taskName + " টাস্ক সম্পন্ন করার লিংক খোলা হচ্ছে...");
+      alert(taskName + " ইনস্টলেশন কাজ সম্পন্ন হচ্ছে...");
       addCoins(rewardCoins);
     }
 
-    // 6. Games Logic
+    // 5. Separate Game Window Engine (Opened when Game Card clicked)
     let currentRotation = 0;
+    function openGame(gameType) {
+      const view = document.getElementById('game-view');
+      const title = document.getElementById('game-title');
+      const container = document.getElementById('game-container-content');
+
+      if (gameType === 'spin') {
+        title.innerText = "🎡 Lucky Spin Wheel";
+        container.innerHTML = `
+          <div class="card" style="text-align: center;">
+            <p style="font-size: 13px; color: var(--text-sub);">চাকা ঘুরিয়ে ভাগ্যবান পয়েন্ট/কয়েন অর্জন করুন!</p>
+            <div class="wheel-box" id="spin-wheel">🎯</div>
+            <button id="btn-spin" class="btn" onclick="playSpinGame()">Spin Now (+5 Coins)</button>
+          </div>
+        `;
+      } else if (gameType === 'captcha') {
+        title.innerText = "🔢 Fast Captcha Solver";
+        container.innerHTML = `
+          <div class="card" style="text-align: center;">
+            <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 10px;">সঠিক ক্যাপচা টাইপ করে বোনাস নিন।</p>
+            <div class="captcha-display" id="captcha-code">8X92B</div>
+            <div class="input-group">
+              <input type="text" id="captcha-input" placeholder="ক্যাপচা কোড টাইপ করুন">
+            </div>
+            <button class="btn" onclick="verifyCaptcha()">Submit Captcha (+3 Coins)</button>
+          </div>
+        `;
+        generateCaptcha();
+      }
+
+      view.style.display = 'flex';
+    }
+
+    function closeGameView() {
+      document.getElementById('game-view').style.display = 'none';
+    }
+
     function playSpinGame() {
       const btn = document.getElementById('btn-spin');
       btn.disabled = true;
@@ -363,9 +446,9 @@
       const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
       let code = '';
       for (let i = 0; i < 5; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
-      document.getElementById('captcha-code').innerText = code;
+      const el = document.getElementById('captcha-code');
+      if (el) el.innerText = code;
     }
-    generateCaptcha();
 
     function verifyCaptcha() {
       const input = document.getElementById('captcha-input').value.trim().toUpperCase();
@@ -380,7 +463,7 @@
       }
     }
 
-    // 7. Withdraw System
+    // 6. Withdraw Request System
     function openWithdrawModal() {
       if (!currentUser) {
         alert("উইথড্র রিকোয়েস্ট দিতে প্রথমে প্রোফাইল ট্যাব থেকে লগইন করুন।");
@@ -434,4 +517,4 @@
     }
   </script>
 </body>
-  </html>
+                                                  </html>
